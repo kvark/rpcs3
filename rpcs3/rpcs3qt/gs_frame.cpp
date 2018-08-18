@@ -13,6 +13,8 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#elif defined(__APPLE__)
+//nothing
 #else
 #ifdef VK_USE_PLATFORM_WAYLAND_KHR
 #include <QGuiApplication>
@@ -200,6 +202,8 @@ display_handle_t gs_frame::handle() const
 {
 #ifdef _WIN32
 	return (HWND) this->winId();
+#elif defined(__APPLE__)
+	return (void*) this->winId(); //NSView
 #else
 #ifdef VK_USE_PLATFORM_WAYLAND_KHR
 	QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();

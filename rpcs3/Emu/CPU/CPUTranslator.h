@@ -289,6 +289,25 @@ struct llvm_value_t<f64> : llvm_value_t<void>
 	}
 };
 
+#ifdef __APPLE__
+template <>
+struct llvm_value_t<unsigned long> : llvm_value_t<void>
+{
+	using type = unsigned long;
+	using base = llvm_value_t<void>;
+	using base::base;
+
+	static constexpr uint esize  = 64;
+	static constexpr bool is_sint = false;
+	static constexpr bool is_uint = true;
+
+	static llvm::Type* get_type(llvm::LLVMContext& context)
+	{
+		return llvm::Type::getInt64Ty(context);
+	}
+};
+#endif
+
 template <typename T>
 struct llvm_value_t<T*> : llvm_value_t<T>
 {
